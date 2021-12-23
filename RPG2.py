@@ -1,6 +1,45 @@
-from random import randint
+import sqlite3
+from inspect import getmembers, isclass, isfunction
 from tkinter import *
+from tkinter import messagebox
+import cmd
+import textwrap
+import sys
+import os
+import time
+import random
 
+conn = sqlite3.connect('RPG2.db')
+c = conn.cursor()
+
+root = Tk()
+root.title('Adventure Awaits!!')
+
+#### GUI Code ####
+
+
+
+#### Game Play Code ####
+## Created Character
+
+class player:
+    def __init__(self, player_number, name, p_race, p_class, p_level, strength, dexterity, constitution, intelligence, wisdom, charisma, hit_points, spell_slots, bag, armor, weapon):
+        self.player_number = player_number
+        self.name = name
+        self.p_race = p_race
+        self.p_class = p_class
+        self.p_level = p_level
+        self.strength = strength
+        self.dexterity = dexterity
+        self.constitution = constitution
+        self.intelligence = intelligence
+        self.wisdom = wisdom
+        self.charisma = charisma
+        self.hit_points = hit_points
+        self.spell_slots = spell_slots
+        self.bag = bag
+        self.armor = armor
+        self.weapon = weapon
 
 ## Classes
 # Gear
@@ -52,10 +91,11 @@ class weapon:
 class casting_classes:
     type = 'Trait'
     
-    def __init__(self, name, stat, hp, spell_slots):
+    def __init__(self, name, stat, hp, ac_bonus, spell_slots):
         self.name = name
         self.stat1 = stat
         self.hp = hp
+        self.ac_bonus = ac_bonus
         self.spell_slots = spell_slots
 
 class hybrid_classes:
@@ -159,9 +199,9 @@ rogue = melee_classes('Rogue', 'Dex', 8, 'None', 'sneak_attack')
 
 # Casting Classes
 
-bard = casting_classes('Bard', 'Cha', 8, 10)
-sorcerer = casting_classes('Sorcerer', 'Cha', 8, 10)
-wizard = casting_classes('Wizard', 'Int', 8, 10)
+bard = casting_classes('Bard', 'Cha', 8, 'None', 10)
+sorcerer = casting_classes('Sorcerer', 'Cha', 8, 'None', 10)
+wizard = casting_classes('Wizard', 'Int', 8, 'None', 10)
 
 # Hybrid Classes
 
@@ -191,3 +231,37 @@ lightning_bolt = attack_spells('Lightning Bolt', ['Wizard'], 'Int', 3, 30)
 
 game_running = True
 game_results = []
+
+p_number = 1
+p_name = 'Richard'
+p_race = 'Human'
+p_class = 'Rogue'
+p_level = 1 
+p_str = 10
+p_dex = 10
+p_con = 10
+p_int = 10
+p_wis = 10
+p_cha = 10
+p_hp = 0
+p_ss = 0
+p_bag = small_bag
+p_armor = 'Leather'
+p_weapon = 'Dagger'
+
+player_build = player(p_number,p_name,p_race,p_class,p_level,p_str,p_dex,p_con,p_int,p_wis,p_cha,p_hp,p_ss,p_bag,p_armor,p_weapon)
+
+c.execute("""
+    INSERT INTO Players
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", {p_number,p_name,p_race,p_class,p_level,p_str,p_dex,p_con,p_int,p_wis,p_cha,p_hp,p_ss,p_bag,p_armor,p_weapon})
+
+c.execute("""
+    SELECT *
+    FROM Players
+    ORDER BY name ASC
+    """)
+players = c.fetchall()
+for plyr in players:
+    print(plyr)
+
+root.mainloop()
