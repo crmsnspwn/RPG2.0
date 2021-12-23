@@ -233,7 +233,7 @@ game_running = True
 game_results = []
 
 p_number = 1
-p_name = 'Richard'
+p_name = 'Robert'
 p_race = 'Human'
 p_class = 'Rogue'
 p_level = 1 
@@ -245,15 +245,15 @@ p_wis = 10
 p_cha = 10
 p_hp = 0
 p_ss = 0
-p_bag = small_bag
+p_bag = 'small_bag'
 p_armor = 'Leather'
 p_weapon = 'Dagger'
 
-player_build = player(p_number,p_name,p_race,p_class,p_level,p_str,p_dex,p_con,p_int,p_wis,p_cha,p_hp,p_ss,p_bag,p_armor,p_weapon)
+# player_build = player(p_number,p_name,p_race,p_class,p_level,p_str,p_dex,p_con,p_int,p_wis,p_cha,p_hp,p_ss,p_bag,p_armor,p_weapon)
 
-c.execute("""
-    INSERT INTO Players
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", {p_number,p_name,p_race,p_class,p_level,p_str,p_dex,p_con,p_int,p_wis,p_cha,p_hp,p_ss,p_bag,p_armor,p_weapon})
+# c.execute("""
+#     INSERT INTO Players
+#     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (p_number,p_name,p_race,p_class,p_level,p_str,p_dex,p_con,p_int,p_wis,p_cha,p_hp,p_ss,p_bag,p_armor,p_weapon,))
 
 c.execute("""
     SELECT *
